@@ -18,6 +18,8 @@ BuildRequires: qt5-declarative-devel
 BuildRequires: qt5-tools-devel
 BuildRequires: qt5-base-common
 BuildRequires: doxygen
+BuildRequires: libqt-mvvm-devel
+BuildRequires: qcustomplot-qt5-devel
 
 BuildRequires: desktop-file-utils ImageMagick-tools
 
