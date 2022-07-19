@@ -18,18 +18,54 @@
 **
 ***********************************************************************************************************************/
 
-#include "gui/mainwindow.h"
-#include <QApplication>
-#include <QLocale>
+#include "graphwidget.h"
+#include "ui_graphwidget.h"
 
-int main(int argc, char **argv)
+#include "graphmodel.h"
+
+#include <mvvm/plotting/graphcanvas.h>
+#include <mvvm/standarditems/graphviewportitem.h>
+
+#include <QAction>
+#include <QBoxLayout>
+#include <QToolBar>
+#include <QToolButton>
+
+#include <QDebug>
+
+using namespace ModelView;
+
+namespace gui
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+GraphWidget::GraphWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::GraphWidget())
+{
+    ui->setupUi(this);
 
-    QApplication app(argc, argv);
-
-    gui::MainWindow window;
-    window.show();
-
-    return app.exec();
+    initActions();
 }
+
+void GraphWidget::setModel(GraphModel *model)
+{
+    if (!model)
+    {
+        return;
+    }
+
+    this->model = model;
+
+    ui->graphCanvas->setItem(this->model->topItem<GraphViewportItem>());
+}
+
+void GraphWidget::initActions()
+{
+    // TODO: Implement.
+}
+
+GraphWidget::~GraphWidget()
+{
+    delete ui;
+}
+
+} // namespace gui

@@ -18,18 +18,54 @@
 **
 ***********************************************************************************************************************/
 
-#include "gui/mainwindow.h"
-#include <QApplication>
-#include <QLocale>
+#ifndef GRAPH_WIDGET_H
+#define GRAPH_WIDGET_H
 
-int main(int argc, char **argv)
+#include <QWidget>
+
+QT_BEGIN_NAMESPACE
+namespace Ui
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
-
-    QApplication app(argc, argv);
-
-    gui::MainWindow window;
-    window.show();
-
-    return app.exec();
+class GraphWidget;
 }
+QT_END_NAMESPACE
+
+namespace ModelView
+{
+class ItemsTreeView;
+class GraphCanvas;
+} // namespace ModelView
+
+namespace gui
+{
+class GraphModel;
+
+class GraphWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit GraphWidget(QWidget *parent = nullptr);
+    ~GraphWidget();
+
+    void setModel(GraphModel *model);
+
+private:
+    void initActions();
+
+private:
+    GraphWidget(const GraphWidget &) = delete;            // copy ctor
+    GraphWidget(GraphWidget &&)      = delete;            // move ctor
+    GraphWidget &operator=(const GraphWidget &) = delete; // copy assignment
+    GraphWidget &operator=(GraphWidget &&) = delete;      // move assignment
+
+private:
+    GraphModel *model{nullptr};
+
+private:
+    Ui::GraphWidget *ui{nullptr};
+};
+
+} // namespace gui
+
+#endif // GRAPH_WIDGET_H

@@ -18,18 +18,33 @@
 **
 ***********************************************************************************************************************/
 
-#include "gui/mainwindow.h"
-#include <QApplication>
-#include <QLocale>
+#ifndef GRAPH_MODEL_H
+#define GRAPH_MODEL_H
 
-int main(int argc, char **argv)
+#include <mvvm/model/sessionmodel.h>
+
+namespace ModelView
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+class GraphViewportItem;
+class ContainerItem;
+} // namespace ModelView
 
-    QApplication app(argc, argv);
+namespace gui
+{
+class GraphModel : public ModelView::SessionModel
+{
+public:
+    GraphModel();
 
-    gui::MainWindow window;
-    window.show();
+    void addGraph();
 
-    return app.exec();
-}
+private:
+    ModelView::GraphViewportItem *viewport();
+    ModelView::ContainerItem *dataContainer();
+
+    void populateModel();
+};
+
+} // namespace gui
+
+#endif // GRAPH_MODEL_H

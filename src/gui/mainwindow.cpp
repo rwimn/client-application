@@ -18,18 +18,32 @@
 **
 ***********************************************************************************************************************/
 
-#include "gui/mainwindow.h"
-#include <QApplication>
-#include <QLocale>
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
 
-int main(int argc, char **argv)
+#include "statusbarwidget.h"
+
+#include "graphmodel.h"
+
+const int STRETCH_WIDGET = 1;
+
+namespace gui
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow())
+    , model(std::make_unique<GraphModel>())
+{
+    ui->setupUi(this);
 
-    QApplication app(argc, argv);
+    ui->statusbar->addPermanentWidget(new StatusBarWidget(), STRETCH_WIDGET);
 
-    gui::MainWindow window;
-    window.show();
-
-    return app.exec();
+    ui->graphWidget->setModel(model.get());
 }
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}
+
+} // namespace gui

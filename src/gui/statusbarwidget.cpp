@@ -18,18 +18,29 @@
 **
 ***********************************************************************************************************************/
 
-#include "gui/mainwindow.h"
-#include <QApplication>
-#include <QLocale>
+#include "statusbarwidget.h"
+#include "ui_statusbarwidget.h"
 
-int main(int argc, char **argv)
+#include <mvvm/factories/viewmodelfactory.h>
+#include <mvvm/viewmodel/viewmodeldelegate.h>
+
+#include <QDataWidgetMapper>
+
+namespace gui
 {
-    QLocale::setDefault(QLocale(QLocale::English, QLocale::UnitedStates));
-
-    QApplication app(argc, argv);
-
-    gui::MainWindow window;
-    window.show();
-
-    return app.exec();
+StatusBarWidget::StatusBarWidget(QWidget *parent)
+    : QWidget(parent)
+    , view_model(nullptr)
+    , delegate(std::make_unique<ModelView::ViewModelDelegate>())
+    , mapper(nullptr)
+    , ui(new Ui::StatusBarWidget())
+{
+    ui->setupUi(this);
 }
+
+StatusBarWidget::~StatusBarWidget()
+{
+    delete ui;
+}
+
+} // namespace gui
